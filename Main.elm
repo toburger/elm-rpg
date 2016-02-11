@@ -1,50 +1,51 @@
 module Main (..) where
 
 import Html
-import Html.Events as Events
+import Effects exposing (Effects, Never)
+import Task
+import StartApp
 
 
 type alias Model =
-  { count : Int }
+  {}
 
 
 type Action
   = NoOp
-  | Increase
 
 
 initialModel : Model
 initialModel =
-  { count = 0
-  }
+  {}
 
 
 view : Signal.Address Action -> Model -> Html.Html
 view address model =
   Html.div
     []
-    [ Html.div [] [ Html.text (toString model.count) ]
-    , Html.button
-        [ Events.onClick address Increase ]
-        [ Html.text "Click" ]
-    ]
+    []
 
 
-update : Action -> Model -> Model
+update : Action -> Model -> ( Model, Effects Action )
 update action model =
-  { model | count = model.count + 1 }
+  ( model, Effects.none )
 
 
-mb : Signal.Mailbox Action
-mb =
-  Signal.mailbox NoOp
-
-
-modelSignal : Signal.Signal Model
-modelSignal =
-  Signal.foldp update initialModel mb.signal
+app : StartApp.App Model
+app =
+  StartApp.start
+    { init = ( initialModel, Effects.none )
+    , update = update
+    , view = view
+    , inputs = []
+    }
 
 
 main : Signal.Signal Html.Html
 main =
-  Signal.map (view mb.address) modelSignal
+  app.html
+
+
+port tasks : Signal (Task.Task Never ())
+port tasks =
+  app.tasks
