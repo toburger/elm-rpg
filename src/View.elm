@@ -1,12 +1,29 @@
 module View (..) where
 
-import Actions exposing (Action)
-import Models exposing (Model)
-import Html
+import Html exposing (..)
+import Actions exposing (..)
+import Models exposing (..)
+import Players.List
 
 
-view : Signal.Address Action -> Model -> Html.Html
+view : Signal.Address Action -> Model -> Html
 view address model =
-  Html.div
+  div
     []
-    []
+    [ page address model
+    ]
+
+
+page : Signal.Address Action -> Model -> Html
+page address model =
+  let
+    viewModel =
+      { players = model.players
+      }
+  in
+    Players.List.view
+      (Signal.forwardTo
+        address
+        PlayersAction
+      )
+      viewModel
