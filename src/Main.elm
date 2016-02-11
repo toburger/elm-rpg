@@ -4,37 +4,21 @@ import Html
 import Effects exposing (Effects, Never)
 import Task
 import StartApp
+import Actions exposing (Action)
+import Models exposing (..)
+import Update exposing (update)
+import View exposing (view)
 
 
-type alias Model =
-  {}
-
-
-type Action
-  = NoOp
-
-
-initialModel : Model
-initialModel =
-  {}
-
-
-view : Signal.Address Action -> Model -> Html.Html
-view address model =
-  Html.div
-    []
-    []
-
-
-update : Action -> Model -> ( Model, Effects Action )
-update action model =
-  ( model, Effects.none )
+init : ( Model, Effects Action )
+init =
+  ( initialModel, Effects.none )
 
 
 app : StartApp.App Model
 app =
   StartApp.start
-    { init = ( initialModel, Effects.none )
+    { init = init
     , update = update
     , view = view
     , inputs = []
