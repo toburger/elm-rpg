@@ -3,12 +3,24 @@ module Update (..) where
 import Models exposing (..)
 import Actions exposing (..)
 import Effects exposing (Effects)
+import Routing
 import Players.Update
 
 
 update : Action -> Model -> ( Model, Effects Action )
 update action model =
-  case action of
+  case (Debug.log "action" action) of
+    RoutingAction subAction ->
+      let
+        ( updatedRouting, fx ) =
+          Routing.update
+            subAction
+            model.routing
+      in
+        ( { model | routing = updatedRouting }
+        , Effects.map RoutingAction fx
+        )
+
     PlayersAction subAction ->
       let
         updateModel =
@@ -20,7 +32,7 @@ update action model =
             updateModel
       in
         ( { model | players = updatedPlayers }
-        , Effects.none
+        , Effects.map PlayersAction fx
         )
 
     NoOp ->

@@ -4,10 +4,16 @@ import Html
 import Effects exposing (Effects, Never)
 import Task
 import StartApp
-import Actions exposing (Action)
+import Actions exposing (Action(..))
 import Models exposing (..)
 import Update exposing (update)
 import View exposing (view)
+import Routing exposing (router)
+
+
+routerSignal : Signal Action
+routerSignal =
+  Signal.map RoutingAction router.signal
 
 
 init : ( Model, Effects Action )
@@ -21,7 +27,7 @@ app =
     { init = init
     , update = update
     , view = view
-    , inputs = []
+    , inputs = [ routerSignal ]
     }
 
 
@@ -33,3 +39,8 @@ main =
 port tasks : Signal (Task.Task Never ())
 port tasks =
   app.tasks
+
+
+port routeRunTask : Task.Task () ()
+port routeRunTask =
+  router.run
