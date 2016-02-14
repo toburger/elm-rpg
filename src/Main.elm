@@ -9,6 +9,7 @@ import Models exposing (..)
 import Update exposing (update)
 import View exposing (view)
 import Routing exposing (router)
+import Mailboxes exposing (..)
 import Players.Effects
 
 
@@ -36,7 +37,7 @@ app =
     { init = init
     , update = update
     , view = view
-    , inputs = [ routerSignal ]
+    , inputs = [ routerSignal, actionsMailbox.signal ]
     }
 
 

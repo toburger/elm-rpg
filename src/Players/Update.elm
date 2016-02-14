@@ -36,8 +36,20 @@ update action model =
         Ok players ->
           ( players, Effects.none )
 
-        Err erro ->
-          ( model.players, Effects.none )
+        Err error ->
+          let
+            errorMessage =
+              toString error
+
+            fx =
+              Signal.send model.showErrorAddress errorMessage
+                |> Effects.task
+                |> Effects.map TaskDone
+          in
+            ( model.players, fx )
+
+    TaskDone () ->
+      ( model.players, Effects.none )
 
     _ ->
       ( model.players, Effects.none )

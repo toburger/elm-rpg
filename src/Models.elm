@@ -15,5 +15,5 @@ initialModel : Model
 initialModel =
   { players = []
   , routing = Routing.initialModel
-  , errorMessage = "Error"
+  , errorMessage = ""
   }

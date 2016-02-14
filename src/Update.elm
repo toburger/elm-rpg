@@ -4,6 +4,7 @@ import Models exposing (..)
 import Actions exposing (..)
 import Effects exposing (Effects)
 import Routing
+import Mailboxes exposing (..)
 import Players.Update
 
 
@@ -24,7 +25,12 @@ update action model =
     PlayersAction subAction ->
       let
         updateModel =
-          { players = model.players }
+          { players = model.players
+          , showErrorAddress =
+              Signal.forwardTo
+                actionsMailbox.address
+                ShowError
+          }
 
         ( updatedPlayers, fx ) =
           Players.Update.update
