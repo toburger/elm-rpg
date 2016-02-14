@@ -9,6 +9,7 @@ import Models exposing (..)
 import Update exposing (update)
 import View exposing (view)
 import Routing exposing (router)
+import Players.Effects
 
 
 routerSignal : Signal Action
@@ -18,7 +19,15 @@ routerSignal =
 
 init : ( Model, Effects Action )
 init =
-  ( initialModel, Effects.none )
+  let
+    fxs =
+      [ Effects.map PlayersAction Players.Effects.fetchAll
+      ]
+
+    fx =
+      Effects.batch fxs
+  in
+    ( initialModel, fx )
 
 
 app : StartApp.App Model
