@@ -1,6 +1,8 @@
 module View (..) where
 
 import Html exposing (..)
+import Html.Attributes exposing (..)
+import String
 import Actions exposing (..)
 import Models exposing (..)
 import Players.List
@@ -17,7 +19,19 @@ view address model =
   in
     div
       []
-      [ page address model ]
+      [ flash address model
+      , page address model
+      ]
+
+
+flash : Signal.Address Action -> Model -> Html
+flash address model =
+  if String.isEmpty model.errorMessage then
+    span [] []
+  else
+    div
+      [ class "bold center p2 mb2 white bg-red rounded" ]
+      [ text model.errorMessage ]
 
 
 page : Signal.Address Action -> Model -> Html

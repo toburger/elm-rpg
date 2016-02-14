@@ -35,5 +35,8 @@ update action model =
         , Effects.map PlayersAction fx
         )
 
+    ShowError message ->
+      ( { model | errorMessage = message }, Effects.none )
+
     NoOp ->
       ( model, Effects.none )
