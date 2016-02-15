@@ -22,5 +22,4 @@ new =
 
 type alias Model =
   { players : List Player
-  , showErrorAddress : Signal.Address String
   }

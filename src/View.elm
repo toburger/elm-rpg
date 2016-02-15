@@ -41,6 +41,8 @@ page address model =
       let
         viewModel =
           { players = model.players
+          , perks = model.perks
+          , perksPlayers = model.perksPlayers
           }
       in
         Players.List.view
@@ -66,7 +68,9 @@ page address model =
           Just player ->
             let
               viewModel =
-                { player = player }
+                { player = player
+                , perks = model.perks
+                , perksPlayers = model.perksPlayers }
             in
               Players.Edit.view
                 (Signal.forwardTo address PlayersAction)

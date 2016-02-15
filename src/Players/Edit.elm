@@ -4,11 +4,16 @@ import Html exposing (..)
 import Html.Attributes exposing (class, value)
 import Html.Events exposing (onClick)
 import Players.Models exposing (..)
+import Perks.Models exposing (Perk)
+import PerksPlayers.Models exposing (PerkPlayer)
 import Players.Actions exposing (..)
+import PerksPlayers.Utils exposing (bonusesForPlayerId)
 
 
 type alias ViewModel =
   { player : Player
+  , perks : List Perk
+  , perksPlayers : List PerkPlayer
   }
 
 
@@ -43,7 +48,7 @@ form : Signal.Address Action -> ViewModel -> Html
 form address model =
   let
     bonuses =
-      999
+      bonusesForPlayerId model.perksPlayers model.perks model.player.id
 
     strength =
       model.player.level + bonuses

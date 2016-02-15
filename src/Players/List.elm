@@ -5,6 +5,16 @@ import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Players.Actions exposing (..)
 import Players.Models exposing (Player, Model)
+import Perks.Models exposing (Perk)
+import PerksPlayers.Models exposing (PerkPlayer)
+import PerksPlayers.Utils exposing (bonusesForPlayerId)
+
+
+type alias ViewModel =
+  { players : List Player
+  , perks : List Perk
+  , perksPlayers : List PerkPlayer
+  }
 
 
 editBtn : Signal.Address Action -> Player -> Html
@@ -18,7 +28,7 @@ editBtn address player =
     ]
 
 
-view : Signal.Address Action -> Model -> Html
+view : Signal.Address Action -> ViewModel -> Html
 view address model =
   div
     []
@@ -44,11 +54,11 @@ view address model =
     ]
 
 
-playerRow : Signal.Address Action -> Model -> Player -> Html
+playerRow : Signal.Address Action -> ViewModel -> Player -> Html
 playerRow address model player =
   let
     bonuses =
-      999
+      bonusesForPlayerId model.perksPlayers model.perks player.id
 
     strength =
       bonuses + player.level

@@ -6,7 +6,13 @@ import Players.Actions exposing (..)
 import Players.Models exposing (..)
 
 
-update : Action -> Model -> ( List Player, Effects Action )
+type alias UpdateModel =
+  { players : List Player
+  , showErrorAddress : Signal.Address String
+  }
+
+
+update : Action -> UpdateModel -> ( List Player, Effects Action )
 update action model =
   case action of
     EditPlayer id ->
