@@ -48,7 +48,10 @@ form : Signal.Address Action -> ViewModel -> Html
 form address model =
   let
     bonuses =
-      bonusesForPlayerId model.perksPlayers model.perks model.player.id
+      bonusesForPlayerId
+        model.perksPlayers
+        model.perks
+        model.player.id
 
     strength =
       model.player.level + bonuses

@@ -24,9 +24,15 @@ init : ( Model, Effects Action )
 init =
   let
     fxs =
-      [ Effects.map PlayersAction Players.Effects.fetchAll
-      , Effects.map PerksAction Perks.Effects.fetchAll
-      , Effects.map PerksPlayersAction PerksPlayers.Effects.fetchAll
+      [ Effects.map
+          PlayersAction
+          Players.Effects.fetchAll
+      , Effects.map
+          PerksAction
+          Perks.Effects.fetchAll
+      , Effects.map
+          PerksPlayersAction
+          PerksPlayers.Effects.fetchAll
       ]
 
     fx =

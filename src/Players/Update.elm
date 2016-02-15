@@ -48,7 +48,9 @@ update action model =
               toString error
 
             fx =
-              Signal.send model.showErrorAddress errorMessage
+              Signal.send
+                model.showErrorAddress
+                errorMessage
                 |> Effects.task
                 |> Effects.map TaskDone
           in

@@ -58,7 +58,10 @@ playerRow : Signal.Address Action -> ViewModel -> Player -> Html
 playerRow address model player =
   let
     bonuses =
-      bonusesForPlayerId model.perksPlayers model.perks player.id
+      bonusesForPlayerId
+        model.perksPlayers
+        model.perks
+        player.id
 
     strength =
       bonuses + player.level
