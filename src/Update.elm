@@ -6,6 +6,8 @@ import Effects exposing (Effects)
 import Routing
 import Mailboxes exposing (..)
 import Players.Update
+import Perks.Update
+import PerksPlayers.Update
 
 
 update : Action -> Model -> ( Model, Effects Action )
@@ -39,6 +41,40 @@ update action model =
       in
         ( { model | players = updatedPlayers }
         , Effects.map PlayersAction fx
+        )
+
+    PerksAction subAction ->
+      let
+        updateModel =
+          { perks = model.perks
+          , showErrorAddress =
+              Signal.forwardTo
+                actionsMailbox.address
+                ShowError
+          }
+
+        ( updatedPerks, fx ) =
+          Perks.Update.update
+            subAction
+            updateModel
+      in
+        ( { model | perks = updatedPerks }
+        , Effects.map PerksAction fx
+        )
+
+    PerksPlayersAction subAction ->
+      let
+        updateModel =
+          { perksPlayers = model.perksPlayers
+          , showErrorAddress =
+              Signal.forwardTo actionsMailbox.address ShowError
+          }
+
+        ( updatedPerksPlayers, fx ) =
+          PerksPlayers.Update.update subAction updateModel
+      in
+        ( { model | perksPlayers = updatedPerksPlayers }
+        , Effects.map PerksPlayersAction fx
         )
 
     ShowError message ->
